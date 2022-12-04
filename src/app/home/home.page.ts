@@ -11,6 +11,7 @@ export class HomePage {
   weight: number = 0
   height: number = 0
   imc: number = 0
+  classificacao: string = ''
 
   constructor(private toastCtrl: ToastController) {}
 
@@ -20,12 +21,22 @@ export class HomePage {
     }
     
     this.imc = this.weight / (this.height * this.height)
+    if(this.imc < 18.5)
+      this.classificacao = 'Magreza'
+    else if(this.imc < 24.9)
+      this.classificacao = 'Normal'
+    else if(this.imc < 29.9)
+      this.classificacao = 'Sobrepeso'
+    else if(this.imc < 39.9)
+      this.classificacao = 'Obesidade'
+    else
+      this.classificacao = 'Obesidade Grave'
     this.showIMC()
   }
 
   async showIMC() {
     const toast = await this.toastCtrl.create({
-      message: `IMC = ${this.imc.toFixed(2)}`,
+      message: `IMC = ${this.imc.toFixed(2)}, Classificação: ${this.classificacao}`,
       duration: 3000,
       color: 'secondary'
     })
